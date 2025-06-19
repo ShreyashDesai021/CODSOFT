@@ -1,0 +1,62 @@
+import java.util.Random;
+import java.util.Scanner;
+
+public class NumberGuessingGame {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+
+        final int MAX_ATTEMPTS = 7;
+        int totalRounds = 0;
+        int totalScore = 0;
+        boolean continuePlaying = true;
+
+        System.out.println("Welcome to the Number Guessing Game");
+
+        while (continuePlaying) {
+            int targetNumber = random.nextInt(100) + 1;
+            int attemptsUsed = 0;
+            boolean isCorrect = false;
+
+            System.out.println("\nA number between 1 and 100 has been generated.");
+            System.out.println("You have " + MAX_ATTEMPTS + " attempts to guess it.");
+
+            while (attemptsUsed < MAX_ATTEMPTS) {
+                System.out.print("Enter your guess: ");
+                int guess = scanner.nextInt();
+                attemptsUsed++;
+
+                if (guess == targetNumber) {
+                    System.out.println("Correct! You guessed the number in " + attemptsUsed + " attempt(s).");
+                    totalScore += (MAX_ATTEMPTS - attemptsUsed + 1); // Score based on remaining attempts
+                    isCorrect = true;
+                    break;
+                } else if (guess < targetNumber) {
+                    System.out.println("Your guess is too low.");
+                } else {
+                    System.out.println("Your guess is too high.");
+                }
+            }
+
+            if (!isCorrect) {
+                System.out.println("You have exhausted all attempts. The correct number was: " + targetNumber);
+            }
+
+            totalRounds++;
+            System.out.println("Current Score: " + totalScore);
+
+            System.out.print("Do you want to play another round? (yes/no): ");
+            scanner.nextLine(); // Clear buffer
+            String response = scanner.nextLine().trim().toLowerCase();
+            continuePlaying = response.equals("yes");
+        }
+
+        System.out.println("\nGame Summary");
+        System.out.println("Rounds Played: " + totalRounds);
+        System.out.println("Final Score: " + totalScore);
+        System.out.println("Thank you for playing.");
+
+        scanner.close();
+    }
+}
